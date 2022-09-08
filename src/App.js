@@ -1,4 +1,3 @@
-// import './App.css';
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { getCategories, getProductsFromCategoryAndQuery } from './services/api';
@@ -9,6 +8,7 @@ class App extends React.Component {
     getCategories();
     getProductsFromCategoryAndQuery();
   }
+
   render() {
     return (
       <BrowserRouter>
