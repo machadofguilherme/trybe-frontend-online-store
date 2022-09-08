@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { BrowserRouter, Route } from 'react-router-dom';
 import { getCategories, getProductsFromCategoryAndQuery } from './services/api';
-import './App.css';
+import Home from './pages/Home';
 
-class App extends Component {
+class App extends React.Component {
   componentDidMount() {
     getCategories();
     getProductsFromCategoryAndQuery();
@@ -10,7 +11,9 @@ class App extends Component {
 
   render() {
     return (
-      <div />
+      <BrowserRouter>
+        <Route path="/" component={ Home } />
+      </BrowserRouter>
     );
   }
 }
