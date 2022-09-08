@@ -1,0 +1,16 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+.listaCategorias {
+    border: 1px solid black;
+    padding: 1px;
+    width: 20%;
+}
+
+.listaCategorias li {
+   
+    padding: 1px;
+}
