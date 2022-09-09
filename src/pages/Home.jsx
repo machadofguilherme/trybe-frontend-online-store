@@ -1,15 +1,9 @@
 import React from 'react';
 import './Home.css';
 import { Link } from 'react-router-dom';
-import Cart from './Cart';
 
 class Home extends React.Component {
-  state = {
-    itemsCart: '',
-  };
-
   render() {
-    const { itemsCart } = this.state;
     return (
       <>
         <input
@@ -21,10 +15,8 @@ class Home extends React.Component {
         </p>
         <button
           type="button"
-          data-testid="shopping-cart-button"
         >
-          <Cart itemsCart={ itemsCart } />
-          <Link to="/cart">Carrinho</Link>
+          <Link data-testid="shopping-cart-button" to="/cart">Carrinho</Link>
         </button>
       </>
     );
