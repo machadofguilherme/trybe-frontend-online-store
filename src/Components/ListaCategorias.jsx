@@ -1,31 +1,53 @@
 import React, { Component } from 'react';
 import './listaCategorias.css';
+import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
 
 class ListaCategorias extends Component {
-  render() {
-    return (
-      <ul className="listaCategorias">
-        Categorias
-        <li>
-          <label data-testid="category" htmlFor="radio">
-            <input name="btn" type="radio" />
-            Categoria 01
-          </label>
-        </li>
-        <li>
-          <label data-testid="category" htmlFor="radio">
-            <input name="btn" type="radio" />
-            Categoria 02
-          </label>
-        </li>
-        <li>
-          <label data-testid="category" htmlFor="radio">
-            <input name="btn" type="radio" />
-            Categoria 03
-          </label>
-        </li>
+  state = {
+    listCategories: [],
+    data: [],
+    isTrue: false,
+  };
 
-      </ul>
+  async componentDidMount() {
+    const chamarCategorias = await getCategories();
+    this.setState({ listCategories: chamarCategorias });
+  }
+
+  clickManager = async (search) => {
+    const chamarApi = await getProductsFromCategoryAndQuery(search, '');
+    const { results } = chamarApi;
+    this.setState({ data: results, isTrue: true });
+  };
+
+  render() {
+    const { listCategories, data, isTrue } = this.state;
+    return (
+      <>
+        <ul className="listaCategorias">
+          Categorias
+          { listCategories.map((el) => (
+            <li key={ el.id }>
+              <label data-testid="category" htmlFor="radio">
+                <input
+                  name="btn"
+                  type="radio"
+                  id="radio"
+                  onClick={ () => this.clickManager(el.id, '') }
+                />
+                { el.name }
+              </label>
+            </li>
+          )) }
+        </ul>
+        { isTrue && (data.map((el) => (
+          <div key={ el.id } data-testid="product">
+            <img src={ el.thumbnail } alt={ el.title } />
+            <p>{ el.title }</p>
+            <p>{ el.price }</p>
+          </div>
+        ))) }
+      </>
     );
   }
 }
