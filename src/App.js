@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
-import ListaCategorias from './Components/ListaCategorias';
 import { getCategories, getProductsFromCategoryAndQuery } from './services/api';
 import Home from './pages/Home';
+import Cart from './pages/Cart';
 
 class App extends React.Component {
   componentDidMount() {
@@ -13,8 +13,10 @@ class App extends React.Component {
   render() {
     return (
       <BrowserRouter>
-        <Route path="/" component={ Home } />
-        <Route path="/" component={ ListaCategorias } />
+
+        <Route exact path="/" component={ Home } />
+        <Route exact path="/cart" component={ Cart } />
+
       </BrowserRouter>
     );
   }
