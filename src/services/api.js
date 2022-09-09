@@ -8,19 +8,15 @@ export async function getCategories() {
 }
 
 export async function getProductsFromCategoryAndQuery(categoryId, query) {
-  let jayson = '';
-  const urlQuery = `https://api.mercadolibre.com/sites/MLB/search?q=${query}`;
-  const urlCategory = `https://api.mercadolibre.com/sites/MLB/search?category=${categoryId}`;
-
-  if (query !== undefined) {
-    const request = await fetch(urlQuery);
-    jayson = await request.json();
-  } else if (categoryId !== undefined) {
-    const request = await fetch(urlCategory);
-    jayson = await request.json();
+  // Com a ajuda do aluno Felipe pinto, turma 24, tribo A, utilizamos um endpoint diferente e eliminamos o If Else que potencialmente estava causando problemas na seleção dos produtos
+  try {
+    const url = `https://api.mercadolibre.com/sites/MLB/search?category=${categoryId}&q=${query}`;
+    const request = await fetch(url);
+    const json = await request.json();
+    return json;
+  } catch (e) {
+    return e.message;
   }
-
-  return jayson;
 }
 
 export async function getProductById() {
