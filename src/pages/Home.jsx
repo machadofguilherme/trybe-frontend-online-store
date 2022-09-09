@@ -19,7 +19,8 @@ class Home extends React.Component {
 
   clickManager = async (search) => {
     const chamarApi = await getProductsFromCategoryAndQuery('', search);
-    this.setState({ search: '', data: chamarApi });
+    const { results } = chamarApi;
+    this.setState({ search: '', data: results });
   };
 
   render() {
