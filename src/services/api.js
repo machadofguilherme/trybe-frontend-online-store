@@ -9,18 +9,21 @@ export async function getCategories() {
 
 export async function getProductsFromCategoryAndQuery(categoryId, query) {
   let jayson = '';
+  let retorno = '';
   const urlQuery = `https://api.mercadolibre.com/sites/MLB/search?q=${query}`;
   const urlCategory = `https://api.mercadolibre.com/sites/MLB/search?category=${categoryId}`;
 
   if (query !== undefined) {
     const request = await fetch(urlQuery);
     jayson = await request.json();
+    retorno = await jayson.results;
   } else if (categoryId !== undefined) {
     const request = await fetch(urlCategory);
     jayson = await request.json();
+    retorno = await jayson.results;
   }
 
-  return jayson;
+  return retorno;
 }
 
 export async function getProductById() {
