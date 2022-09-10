@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;500;600&display=swap') ;
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -5,13 +7,91 @@
 }
 
 body {
+  font-family: ' Josefin Sans ' , sans-serif;
+  margin: 0 auto;
+  width: 100%;
+}
+
+li {
+  list-style: none;
+}
+
+.logo {
+  color: green;
+  text-transform: uppercase;
+}
+
+.logo span {
+  color: white;
+}
+
+nav {
+  align-items: center;
+  background-color: red;
+  display: flex;
+  height: 80px;
+  justify-content: space-around;
+}
+
+.search-cart {
+  align-items: center;
+  display: flex;
+}
+
+.input, .btn-search {
+  border: none;
+  outline: none;
+  padding: 10px 15px;
+}
+
+.btn-search {
+  background-color: lightgreen;
+  cursor: pointer;
+  font-weight: 500;
+  padding: 9.5px 15px;
+  transition: all 500ms ease;
+}
+
+.btn-search:hover {
+  opacity: 0.9;
+}
+
+.btn-cart {
+  background-color: green;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  outline: none;
+  padding: 9px 15px;
+  transition: all 500ms ease;
+}
+
+.btn-cart:hover {
+  opacity: 0.8;
+}
+
+a {
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.intro {
+  margin-top: 20px;
   text-align: center;
 }
 
-input {
-  border: none;
-  border-bottom: 1px solid gray;
-  margin: 10px;
-  padding: 10px;
-  width: 50%;
+.not-product {
+  left: 40%;
+  position: absolute;
+  top: 50%;
+}
+
+.more {
+  color: red;
+}
+
+.hide {
+  display: none;
 }

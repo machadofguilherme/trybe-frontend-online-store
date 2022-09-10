@@ -1,15 +1,15 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
 .listaCategorias {
   border: 1px solid black;
-  padding: 1px;
-  width: 20%;
+  margin-left: 30px;
+  padding: 30px;
+  width: 22%;
 }
 
 .listaCategorias li {
-  padding: 1px;
+  margin: 1px 0;
+}
+
+.list-cat {
+  display: flex;
+  justify-content: space-between;
 }
