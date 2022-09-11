@@ -5,28 +5,37 @@ export default class Cart extends Component {
     items: [],
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     const xablau = JSON.parse(localStorage.getItem('produto'));
     this.setState({ items: xablau });
   }
 
+  teste = () => {
+    const { items } = this.state;
+    console.log(items);
+  };
+
   render() {
     const { items } = this.state;
+    this.teste();
+
     return (
-      <>
-        <div data-testid="shopping-cart-empty-message">
+      <div data-testid="shopping-cart-product-name">
+        { items.map((el, i) => (
+          <section key={ `${el.title}-${i}` }>
+            <p>
+              { el.title }
+            </p>
+            <p>{ el.price }</p>
+            <p data-testid="shopping-cart-product-quantity">
+              0
+            </p>
+          </section>
+        )) }
+        <p data-testid="shopping-cart-empty-message">
           Seu carrinho está vazio
-        </div>
-        <div>
-          { items.map((el, i) => (
-            <div key={ `${el.title}-${i}` }>
-              <p data-testid="shopping-cart-product-name">{ el.title }</p>
-              <p>{ el.price }</p>
-              <p data-testid="shopping-cart-product-quantity">{ el. }</p>
-            </div>
-          )) }
-        </div>
-      </>
+        </p>
+      </div>
     );
   }
 }

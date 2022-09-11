@@ -38,7 +38,7 @@ class Home extends React.Component {
 
   render() {
     const { search, data } = this.state;
-    const { set } = this.props;
+    const { set, detalheProduct } = this.props;
 
     return (
       <>
@@ -80,7 +80,7 @@ class Home extends React.Component {
         </p>
 
         <aside>
-          <ListaCategorias set={ set } />
+          <ListaCategorias set={ set } detalheProduct={ detalheProduct } />
         </aside>
 
         { data.length > 0 ? (
@@ -107,10 +107,10 @@ class Home extends React.Component {
                     </Link>
                   </button>
                   <button
+                    data-testid="product-add-to-cart"
                     className="more"
                     type="button"
                     onClick={ () => this.addCarrinho(el) }
-                    data-testid="product-add-to-cart"
                   >
                     Adicionar ao carrinho
                   </button>

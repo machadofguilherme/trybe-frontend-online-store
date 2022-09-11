@@ -29,6 +29,11 @@ class ListaCategorias extends Component {
     set(info);
   };
 
+  addCarrinho = (product) => {
+    const { detalheProduct } = this.props;
+    detalheProduct(product);
+  };
+
   render() {
     const { listCategories, data, isTrue } = this.state;
     return (
@@ -70,6 +75,14 @@ class ListaCategorias extends Component {
                 Veja mais
               </Link>
             </button>
+            <button
+              data-testid="product-add-to-cart"
+              className="more"
+              type="button"
+              onClick={ () => this.addCarrinho(el) }
+            >
+              Adicionar ao carrinho
+            </button>
           </>
         ))) }
       </div>
@@ -79,6 +92,7 @@ class ListaCategorias extends Component {
 
 ListaCategorias.propTypes = {
   set: PropTypes.func.isRequired,
+  detalheProduct: PropTypes.func.isRequired,
 };
 
 export default ListaCategorias;

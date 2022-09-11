@@ -27,8 +27,7 @@ class App extends React.Component {
   };
 
   render() {
-    const { info, infoProducts } = this.state;
-    this.salvarStorage();
+    const { info } = this.state;
     return (
       <BrowserRouter>
         <Route
@@ -42,8 +41,8 @@ class App extends React.Component {
 
         <Route
           exact
-          path="/cart/"
-          render={ () => <Cart produtoCarrinho={ infoProducts } /> }
+          path="/cart"
+          render={ () => <Cart /> }
         />
 
         <Route
