@@ -3,39 +3,45 @@ import React, { Component } from 'react';
 export default class Cart extends Component {
   state = {
     items: [],
+    isTrue: false,
   };
 
   async componentDidMount() {
     const xablau = JSON.parse(localStorage.getItem('produto'));
-    this.setState({ items: xablau });
+    this.setState({ items: xablau, isTrue: true });
   }
 
   teste = () => {
     const { items } = this.state;
-    console.log(items);
+    return items;
   };
 
   render() {
-    const { items } = this.state;
+    const { items, isTrue } = this.state;
     this.teste();
 
     return (
-      <div data-testid="shopping-cart-product-name">
-        { items.map((el, i) => (
-          <section key={ `${el.title}-${i}` }>
-            <p>
-              { el.title }
-            </p>
-            <p>{ el.price }</p>
-            <p data-testid="shopping-cart-product-quantity">
-              0
-            </p>
-          </section>
-        )) }
-        <p data-testid="shopping-cart-empty-message">
-          Seu carrinho está vazio
-        </p>
-      </div>
+      <section data-testid="shopping-cart-product-name">
+        {
+          isTrue
+            ? items.map((el, i) => (
+              <section key={ `${el.title}-${i}` }>
+                <p>
+                  { el.title }
+                </p>
+                <p>{ el.price }</p>
+                <p data-testid="shopping-cart-product-quantity">
+                  0
+                </p>
+              </section>
+            ))
+            : (
+              <p data-testid="shopping-cart-empty-message">
+                Seu carrinho está vazio
+              </p>
+            )
+        }
+      </section>
     );
   }
 }

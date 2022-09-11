@@ -37,23 +37,22 @@ class ListaCategorias extends Component {
   render() {
     const { listCategories, data, isTrue } = this.state;
     return (
-      <div>
-        <ul className="listaCategorias">
-          Categorias
-          { listCategories.map((el) => (
-            <li key={ el.id }>
-              <label data-testid="category" htmlFor="radio" className="list-cat">
-                <input
-                  name="btn"
-                  type="radio"
-                  id="radio"
-                  onClick={ () => this.clickManager(el.id, '') }
-                />
-                { el.name }
-              </label>
-            </li>
-          )) }
-        </ul>
+
+      <ul className="listaCategorias">
+        Categorias
+        { listCategories.map((el) => (
+          <li key={ el.id }>
+            <label data-testid="category" htmlFor="radio" className="list-cat">
+              <input
+                name="btn"
+                type="radio"
+                id="radio"
+                onClick={ () => this.clickManager(el.id, '') }
+              />
+              { el.name }
+            </label>
+          </li>
+        )) }
 
         { isTrue && (data.map((el) => (
           <>
@@ -85,7 +84,7 @@ class ListaCategorias extends Component {
             </button>
           </>
         ))) }
-      </div>
+      </ul>
     );
   }
 }
