@@ -31,6 +31,11 @@ class Home extends React.Component {
     set(info);
   };
 
+  addCarrinho = (product) => {
+    const { detalheProduct } = this.props;
+    detalheProduct(product);
+  };
+
   render() {
     const { search, data } = this.state;
     const { set } = this.props;
@@ -101,8 +106,15 @@ class Home extends React.Component {
                       Veja mais
                     </Link>
                   </button>
+                  <button
+                    className="more"
+                    type="button"
+                    onClick={ () => this.addCarrinho(el) }
+                    data-testid="product-add-to-cart"
+                  >
+                    Adicionar ao carrinho
+                  </button>
                 </div>
-
               </div>
             )) }
           </>
@@ -115,5 +127,6 @@ class Home extends React.Component {
 export default Home;
 
 Home.propTypes = {
+  detalheProduct: PropTypes.func.isRequired,
   set: PropTypes.func.isRequired,
 };

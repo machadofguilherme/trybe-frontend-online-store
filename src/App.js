@@ -8,24 +8,43 @@ import Product from './pages/Product';
 class App extends React.Component {
   state = {
     info: [],
+    infoProducts: [],
   };
 
   setInfo = (info) => {
     this.setState({ info });
   };
 
-  render() {
-    const { info } = this.state;
+  productDetails = (details) => {
+    this.setState((el) => ({ infoProducts: [...el.infoProducts, details] }));
+    this.salvarStorage();
+  };
 
+  salvarStorage = () => {
+    const { infoProducts } = this.state;
+    const xablau = JSON.stringify(infoProducts);
+    localStorage.setItem('produto', xablau);
+  };
+
+  render() {
+    const { info, infoProducts } = this.state;
+    this.salvarStorage();
     return (
       <BrowserRouter>
         <Route
           exact
           path="/"
-          render={ () => <Home set={ this.setInfo } /> }
+          render={ () => (<Home
+            set={ this.setInfo }
+            detalheProduct={ this.productDetails }
+          />) }
         />
 
-        <Route exact path="/cart" component={ Cart } />
+        <Route
+          exact
+          path="/cart/"
+          render={ () => <Cart produtoCarrinho={ infoProducts } /> }
+        />
 
         <Route
           exact
