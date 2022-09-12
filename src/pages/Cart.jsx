@@ -8,6 +8,7 @@ export default class Cart extends Component {
   componentDidMount() {
     const xablau = JSON.parse(localStorage.getItem('produto'));
     this.setState({ items: xablau });
+    console.log(xablau);
   }
 
   render() {
@@ -22,7 +23,7 @@ export default class Cart extends Component {
             <div key={ `${el.title}-${i}` }>
               <p data-testid="shopping-cart-product-name">{ el.title }</p>
               <p>{ el.price }</p>
-              <p data-testid="shopping-cart-product-quantity">{ el. }</p>
+              {/* <p data-testid="shopping-cart-product-quantity">{ el. }</p> */}
             </div>
           )) }
         </div>
