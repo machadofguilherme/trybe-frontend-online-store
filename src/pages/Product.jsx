@@ -1,10 +1,21 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { getProductById } from '../services/api';
 
 export default class Product extends Component {
+  state = {
+    info: [],
+  };
+
+  async componentDidMount() {
+    const { match: { params: { id } } } = this.props;
+    const IdProduto = await getProductById(id);
+    this.setState({ info: IdProduto });
+  }
+
   render() {
-    const { info } = this.props;
+    const { info } = this.state;
 
     return (
       <div>
@@ -33,5 +44,7 @@ export default class Product extends Component {
 }
 
 Product.propTypes = {
-  info: PropTypes.arrayOf.isRequired,
+  match: PropTypes.shape(
+    { params: PropTypes.shape({ id: PropTypes.string }) },
+  ).isRequired,
 };

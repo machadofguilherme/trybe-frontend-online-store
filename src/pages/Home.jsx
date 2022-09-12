@@ -32,16 +32,16 @@ class Home extends React.Component {
     this.setState({ data: categoria.results });
   };
 
-  campoBusca = async (busca) => {
-    const pesquisa = await getProductsFromCategoryAndQuery(busca);
-    console.log(busca);
+  campoBusca = async (query) => {
+    const pesquisa = await getProductsFromCategoryAndQuery('', query);
     this.setState({ data: pesquisa.results, search: '' });
+    console.log(query);
   };
 
-  sendInfo = (info) => {
-    const { set } = this.props;
-    set(info);
-  };
+  // sendInfo = (info) => {
+  //   const { set } = this.props;
+  //   set(info);
+  // };
 
   addCarrinho = (product) => {
     const { detalheProduct } = this.props;
@@ -50,8 +50,8 @@ class Home extends React.Component {
 
   render() {
     const { search, data, contagem, listCategories } = this.state;
+    console.log(search);
     // const { set } = this.props;
-    console.log(data);
     return (
       <>
         <nav>
@@ -127,10 +127,10 @@ class Home extends React.Component {
                   <button
                     className="more"
                     type="button"
-                    onClick={ () => this.sendInfo(el) }
+                    // onClick={ () => this.sendInfo(el) }
                   >
                     <Link
-                      to={ `/cart/${el.id}` }
+                      to={ `/productInfo/${el.id}` }
                       data-testid="product-detail-link"
                     >
                       Veja mais
@@ -158,5 +158,5 @@ export default Home;
 
 Home.propTypes = {
   detalheProduct: PropTypes.func.isRequired,
-  set: PropTypes.func.isRequired,
+  // set: PropTypes.func.isRequired,
 };
