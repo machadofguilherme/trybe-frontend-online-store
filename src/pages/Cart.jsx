@@ -27,7 +27,20 @@ export default class Cart extends Component {
         </div>
         <div>
           { items.length >= 1 && (
-            <h1>Oi</h1>
+            <ul>
+              { items.map((el) => (
+                <li key={ el.id }>
+                  <p data-testid="shopping-cart-product-name">{el.title}</p>
+                  <p>{ el.price }</p>
+                  <img src={ el.thumbnail } alt={ el.title } />
+                  <p data-testid="shopping-cart-product-quantity">
+                    Quantidade:
+                    {' '}
+                    {1}
+                  </p>
+                </li>
+              )) }
+            </ul>
           )}
         </div>
       </div>
