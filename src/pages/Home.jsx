@@ -98,8 +98,6 @@ class Home extends React.Component {
         </p>
 
         <aside>
-          {/* <ListaCategorias set={ set } />
-          { console.log(this.state.info) } */}
           <ul className="listaCategorias">
             Categorias
             { listCategories.map((el) => (
