@@ -28,13 +28,14 @@ export default class Cart extends Component {
             <ul>
               { items.map((el) => (
                 <li key={ el.id }>
+                  { console.log(el) }
                   <p data-testid="shopping-cart-product-name">{el.title}</p>
                   <p>{ el.price }</p>
                   <img src={ el.thumbnail } alt={ el.title } />
                   <p data-testid="shopping-cart-product-quantity">
                     Quantidade:
                     {' '}
-                    {1}
+                    {}
                   </p>
                 </li>
               )) }
