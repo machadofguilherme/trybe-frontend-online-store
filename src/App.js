@@ -6,31 +6,25 @@ import Cart from './pages/Cart';
 import Product from './pages/Product';
 
 class App extends React.Component {
-  state = {
-    info: [],
-  };
-
-  setInfo = (info) => {
-    this.setState({ info });
-  };
-
   render() {
-    const { info } = this.state;
-
     return (
       <BrowserRouter>
         <Route
           exact
           path="/"
-          render={ () => <Home set={ this.setInfo } /> }
+          component={ Home }
         />
-
-        <Route exact path="/cart" component={ Cart } />
 
         <Route
           exact
-          path="/cart/:id"
-          render={ () => <Product info={ info } /> }
+          path="/cart"
+          component={ Cart }
+        />
+
+        <Route
+          exact
+          path="/productInfo/:id"
+          component={ Product }
         />
       </BrowserRouter>
     );

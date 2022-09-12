@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
-import ListaCategorias from '../Components/ListaCategorias';
-import { getProductsFromCategoryAndQuery } from '../services/api';
+// import ListaCategorias from '../Components/ListaCategorias';
+import { getProductsFromCategoryAndQuery, getCategories } from '../services/api';
 
 import './Home.css';
 
@@ -11,7 +11,15 @@ class Home extends React.Component {
   state = {
     search: '',
     data: [],
+    contagem: 0,
+    listCategories: [],
+    infoProducts: [],
   };
+
+  async componentDidMount() {
+    const chamarCategorias = await getCategories();
+    this.setState({ listCategories: chamarCategorias });
+  }
 
   salvaState = ({ target }) => {
     const { value } = target;
@@ -20,21 +28,35 @@ class Home extends React.Component {
     });
   };
 
-  clickManager = async (search) => {
-    const chamarApi = await getProductsFromCategoryAndQuery('', search);
-    const { results } = chamarApi;
-    this.setState({ search: '', data: results });
+  clickManager = async (idCategoria) => {
+    const categoria = await getProductsFromCategoryAndQuery(idCategoria);
+    this.setState({ data: categoria.results });
   };
 
-  sendInfo = (info) => {
-    const { set } = this.props;
-    set(info);
+  campoBusca = async (query) => {
+    const pesquisa = await getProductsFromCategoryAndQuery('', query);
+    this.setState({ data: pesquisa.results, search: '' });
+  };
+
+  addCarrinho = (product) => { // verificar se foi add mais de uma vez (incrementar uma chave quant) - hof /primeira vez que add produto1 / add produto2 some = false / produto 1 novamente
+    let { infoProducts } = this.state;
+    if (infoProducts.length === 0) {
+      this.setState({ infoProducts: [product] }, () => {
+        const json = JSON.stringify([product]);
+        localStorage.setItem('produto', json);
+      });
+    } else {
+      this.setState((prev) => ({
+        infoProducts: [...prev.infoProducts, product],
+      }), () => {
+        const jsonn = JSON.stringify({ infoProducts } = this.state);
+        localStorage.setItem('produto', jsonn);
+      });
+    }
   };
 
   render() {
-    const { search, data } = this.state;
-    const { set } = this.props;
-
+    const { search, data, contagem, listCategories } = this.state;
     return (
       <>
         <nav>
@@ -56,7 +78,7 @@ class Home extends React.Component {
               data-testid="query-button"
               className="btn-search"
               type="button"
-              onClick={ () => this.clickManager(search) }
+              onClick={ () => this.campoBusca(search) }
             >
               Pesquisar
 
@@ -68,6 +90,7 @@ class Home extends React.Component {
           >
             <Link data-testid="shopping-cart-button" to="/cart">Carrinho</Link>
           </button>
+          <span data-testid="shopping-cart-product-quantity">{ contagem }</span>
         </nav>
 
         <p data-testid="home-initial-message" className="intro">
@@ -75,7 +98,24 @@ class Home extends React.Component {
         </p>
 
         <aside>
-          <ListaCategorias set={ set } />
+          {/* <ListaCategorias set={ set } />
+          { console.log(this.state.info) } */}
+          <ul className="listaCategorias">
+            Categorias
+            { listCategories.map((el) => (
+              <li key={ el.id }>
+                <label data-testid="category" htmlFor="radio" className="list-cat">
+                  <input
+                    name="btn"
+                    type="radio"
+                    id="radio"
+                    onClick={ () => this.clickManager(el.id) }
+                  />
+                  { el.name }
+                </label>
+              </li>
+            )) }
+          </ul>
         </aside>
 
         { data.length > 0 ? (
@@ -92,17 +132,23 @@ class Home extends React.Component {
                   <button
                     className="more"
                     type="button"
-                    onClick={ () => this.sendInfo(el) }
                   >
                     <Link
-                      to={ `/cart/${el.id}` }
+                      to={ `/productInfo/${el.id}` }
                       data-testid="product-detail-link"
                     >
                       Veja mais
                     </Link>
                   </button>
+                  <button
+                    data-testid="product-add-to-cart"
+                    className="more"
+                    type="button"
+                    onClick={ () => this.addCarrinho(el) }
+                  >
+                    Adicionar ao carrinho
+                  </button>
                 </div>
-
               </div>
             )) }
           </>
@@ -113,7 +159,3 @@ class Home extends React.Component {
 }
 
 export default Home;
-
-Home.propTypes = {
-  set: PropTypes.func.isRequired,
-};
