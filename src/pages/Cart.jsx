@@ -6,18 +6,17 @@ export default class Cart extends Component {
   };
 
   componentDidMount() {
-    const chamafunc = this.capturaStorage();
-    console.log(chamafunc);
+    this.capturaStorage();
   }
 
   capturaStorage = () => {
-    const itemCarrinho = JSON.parse(localStorage.getItem('produto')); // ciclo de vida (did mount)
-    console.log(itemCarrinho);
+    const itemCarrinho = JSON.parse(localStorage.getItem('produto'));
     this.setState({ items: (itemCarrinho ?? []) });
   };
 
   render() {
     const { items } = this.state;
+    console.log(items);
     return (
       <div>
         <div>

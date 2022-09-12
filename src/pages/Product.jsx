@@ -6,17 +6,41 @@ import { getProductById } from '../services/api';
 export default class Product extends Component {
   state = {
     info: [],
+    infoProducts: [],
+    // items: [],
   };
 
   async componentDidMount() {
     const { match: { params: { id } } } = this.props;
     const IdProduto = await getProductById(id);
     this.setState({ info: IdProduto });
+    this.capturaStorage();
   }
+
+  capturaStorage = () => {
+    const itemCarrinho = JSON.parse(localStorage.getItem('produto'));
+    this.setState({ infoProducts: (itemCarrinho ?? []) });
+  };
+
+  addCarrinho = (product) => {
+    let { infoProducts } = this.state;
+    if (infoProducts.length === 0) {
+      this.setState({ infoProducts: [product] }, () => {
+        const json = JSON.stringify([product]);
+        localStorage.setItem('produto', json);
+      });
+    } else {
+      this.setState((prev) => ({
+        infoProducts: [...prev.infoProducts, product],
+      }), () => {
+        const jsonn = JSON.stringify({ infoProducts } = this.state);
+        localStorage.setItem('produto', jsonn);
+      });
+    }
+  };
 
   render() {
     const { info } = this.state;
-
     return (
       <div>
         <h3 data-testid="product-detail-name">
@@ -32,11 +56,17 @@ export default class Product extends Component {
           alt={ info.title }
           data-testid="product-detail-image"
         />
-
         <button
           type="button"
         >
-          <Link to="/cart" data-testid="shopping-cart-button">Carrinho</Link>
+          <Link to="/cart" data-testid="shopping-cart-button">Ir ao Carrinho</Link>
+        </button>
+        <button
+          type="button"
+          data-testid="product-detail-add-to-cart"
+          onClick={ () => this.addCarrinho(info) }
+        >
+          Adicionar ao Carrinho
         </button>
       </div>
     );
