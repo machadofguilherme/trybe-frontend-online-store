@@ -137,10 +137,10 @@ class Home extends React.Component {
                     </Link>
                   </button>
                   <button
+                    data-testid="product-add-to-cart"
                     className="more"
                     type="button"
                     onClick={ () => this.addCarrinho(el) }
-                    data-testid="product-add-to-cart"
                   >
                     Adicionar ao carrinho
                   </button>
