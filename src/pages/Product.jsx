@@ -7,7 +7,6 @@ export default class Product extends Component {
   state = {
     info: [],
     infoProducts: [],
-    // items: [],
   };
 
   async componentDidMount() {

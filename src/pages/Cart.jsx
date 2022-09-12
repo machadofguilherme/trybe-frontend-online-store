@@ -16,7 +16,6 @@ export default class Cart extends Component {
 
   render() {
     const { items } = this.state;
-    console.log(items);
     return (
       <div>
         <div>
