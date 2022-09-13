@@ -38,20 +38,20 @@ class Home extends React.Component {
     this.setState({ data: pesquisa.results, search: '' });
   };
 
-  addCarrinho = (product) => { // verificar se foi add mais de uma vez (incrementar uma chave quant) - hof /primeira vez que add produto1 / add produto2 some = false / produto 1 novamente
-    const { infoProducts } = this.state;
+  addCarrinho = (product) => {
+    let { infoProducts } = this.state;
     if (infoProducts.length === 0) {
       this.setState({ infoProducts: [product] }, () => {
-        const json = JSON.stringify(this.state);
+        const json = JSON.stringify({ infoProducts } = this.state);
         localStorage.setItem('produto', json);
       });
     } else {
       this.setState((prev) => ({
         infoProducts: [...prev.infoProducts, product],
       }), () => {
-        const jsonn = JSON.stringify(this.state);
-        console.log(infoProducts);
+        const jsonn = JSON.stringify({ infoProducts } = this.state);
         localStorage.setItem('produto', jsonn);
+        console.log(infoProducts);
       });
     }
   };
