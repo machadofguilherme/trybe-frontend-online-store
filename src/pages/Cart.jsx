@@ -26,6 +26,7 @@ export default class Cart extends Component {
         <div>
           { items.length >= 1 && (
             <ul>
+              {/* { const acc =  } */}
               { items.map((el) => (
                 <li key={ el.id }>
                   <p data-testid="shopping-cart-product-name">{el.title}</p>
