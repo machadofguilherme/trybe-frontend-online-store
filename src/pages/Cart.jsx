@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 export default class Cart extends Component {
   state = {
     items: [],
+    quant: 1,
   };
 
   componentDidMount() {
@@ -16,7 +17,8 @@ export default class Cart extends Component {
   };
 
   render() {
-    const { items } = this.state;
+    const { items, quant } = this.state;
+    console.log(items);
     return (
       <div>
         <div>
@@ -34,8 +36,7 @@ export default class Cart extends Component {
                   <img src={ el.thumbnail } alt={ el.title } />
                   <p data-testid="shopping-cart-product-quantity">
                     Quantidade:
-                    {' '}
-                    {1}
+                    {quant}
                   </p>
                 </li>
               )) }

@@ -22,7 +22,7 @@ export default class Product extends Component {
   };
 
   addCarrinho = (product) => {
-    let { infoProducts } = this.state;
+    const { infoProducts } = this.state;
     if (infoProducts.length === 0) {
       this.setState({ infoProducts: [product] }, () => {
         const json = JSON.stringify([product]);
@@ -32,7 +32,7 @@ export default class Product extends Component {
       this.setState((prev) => ({
         infoProducts: [...prev.infoProducts, product],
       }), () => {
-        const jsonn = JSON.stringify({ infoProducts } = this.state);
+        const jsonn = JSON.stringify([product]);
         localStorage.setItem('produto', jsonn);
       });
     }

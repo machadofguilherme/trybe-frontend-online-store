@@ -39,21 +39,16 @@ class Home extends React.Component {
   };
 
   addCarrinho = (product) => {
-    let { infoProducts } = this.state;
-    if (infoProducts.length === 0) {
-      this.setState({ infoProducts: [product] }, () => {
-        const json = JSON.stringify({ infoProducts } = this.state);
-        localStorage.setItem('produto', json);
-      });
-    } else {
-      this.setState((prev) => ({
-        infoProducts: [...prev.infoProducts, product],
-      }), () => {
-        const jsonn = JSON.stringify({ infoProducts } = this.state);
-        localStorage.setItem('produto', jsonn);
-        console.log(infoProducts);
-      });
+    let recebeArray = '';
+    let tranformarArray = Array(product);
+    const { infoProducts } = this.state;
+    console.log(tranformarArray);
+    if (tranformarArray !== 1) {
+      tranformarArray = [...tranformarArray, product];
     }
+    console.log(recebeArray);
+    const jsonn = JSON.stringify(infoProducts);
+    localStorage.setItem('produto', jsonn);
   };
 
   render() {
