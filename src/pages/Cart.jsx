@@ -11,6 +11,7 @@ export default class Cart extends Component {
 
   capturaStorage = () => {
     const itemCarrinho = JSON.parse(localStorage.getItem('produto'));
+    console.log(itemCarrinho);
     this.setState({ items: (itemCarrinho ?? []) });
   };
 
@@ -26,7 +27,6 @@ export default class Cart extends Component {
         <div>
           { items.length >= 1 && (
             <ul>
-              {/* { const acc =  } */}
               { items.map((el) => (
                 <li key={ el.id }>
                   <p data-testid="shopping-cart-product-name">{el.title}</p>
