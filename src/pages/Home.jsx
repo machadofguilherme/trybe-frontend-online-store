@@ -38,17 +38,24 @@ class Home extends React.Component {
     this.setState({ data: pesquisa.results, search: '' });
   };
 
-  addCarrinho = (product) => {
-    let recebeArray = '';
-    let tranformarArray = Array(product);
+  addCarrinho = (product) => { // desestruturação de estados!!!
     const { infoProducts } = this.state;
-    console.log(tranformarArray);
-    if (tranformarArray !== 1) {
-      tranformarArray = [...tranformarArray, product];
+    console.log(infoProducts.length === 0);
+    if (infoProducts.length === 0) {
+      this.setState({ infoProducts: [product] }, () => {
+        const { infoProducts: infoProducts2 } = this.state;
+        const json = JSON.stringify(infoProducts2);
+        localStorage.setItem('produto', json);
+      });
+    } else {
+      this.setState((prev) => ({
+        infoProducts: [...prev.infoProducts, product],
+      }), () => {
+        const { infoProducts: infoProducts2 } = this.state;
+        const jsonn = JSON.stringify(infoProducts2);
+        localStorage.setItem('produto', jsonn);
+      });
     }
-    console.log(recebeArray);
-    const jsonn = JSON.stringify(infoProducts);
-    localStorage.setItem('produto', jsonn);
   };
 
   render() {
