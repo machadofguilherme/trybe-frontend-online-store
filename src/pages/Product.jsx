@@ -21,18 +21,21 @@ export default class Product extends Component {
     this.setState({ infoProducts: (itemCarrinho ?? []) });
   };
 
-  addCarrinho = (product) => {
+  addCarrinho = (product) => { // desestruturação de estados!!!
     const { infoProducts } = this.state;
+    console.log(infoProducts.length === 0);
     if (infoProducts.length === 0) {
       this.setState({ infoProducts: [product] }, () => {
-        const json = JSON.stringify([product]);
+        const { infoProducts: infoProducts2 } = this.state;
+        const json = JSON.stringify(infoProducts2);
         localStorage.setItem('produto', json);
       });
     } else {
       this.setState((prev) => ({
         infoProducts: [...prev.infoProducts, product],
       }), () => {
-        const jsonn = JSON.stringify([product]);
+        const { infoProducts: infoProducts2 } = this.state;
+        const jsonn = JSON.stringify(infoProducts2);
         localStorage.setItem('produto', jsonn);
       });
     }

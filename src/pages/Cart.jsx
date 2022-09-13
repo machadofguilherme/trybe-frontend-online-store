@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
+import CartItems from './CartItems';
 
 export default class Cart extends Component {
   state = {
     items: [],
-    quant: 1,
   };
 
   componentDidMount() {
@@ -12,12 +12,11 @@ export default class Cart extends Component {
 
   capturaStorage = () => {
     const itemCarrinho = JSON.parse(localStorage.getItem('produto'));
-    console.log(itemCarrinho);
     this.setState({ items: (itemCarrinho ?? []) });
   };
 
   render() {
-    const { items, quant } = this.state;
+    const { items } = this.state;
     console.log(items);
     return (
       <div>
@@ -30,15 +29,14 @@ export default class Cart extends Component {
           { items.length >= 1 && (
             <ul>
               { items.map((el) => (
-                <li key={ el.id }>
-                  <p data-testid="shopping-cart-product-name">{el.title}</p>
-                  <p>{ el.price }</p>
-                  <img src={ el.thumbnail } alt={ el.title } />
-                  <p data-testid="shopping-cart-product-quantity">
-                    Quantidade:
-                    {quant}
-                  </p>
-                </li>
+                <CartItems
+                  key={ el.id }
+                  items={ items }
+                  thumbnail={ el.thumbnail }
+                  title={ el.title }
+                  price={ el.price }
+                  id={ el.id }
+                />
               )) }
             </ul>
           )}
