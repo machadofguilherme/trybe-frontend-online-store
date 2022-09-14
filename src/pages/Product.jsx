@@ -23,7 +23,6 @@ export default class Product extends Component {
 
   addCarrinho = (product) => { // desestruturação de estados!!!
     const { infoProducts } = this.state;
-    console.log(infoProducts.length === 0);
     if (infoProducts.length === 0) {
       this.setState({ infoProducts: [product] }, () => {
         const { infoProducts: infoProducts2 } = this.state;

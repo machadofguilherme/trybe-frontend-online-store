@@ -38,22 +38,25 @@ class Home extends React.Component {
     this.setState({ data: pesquisa.results, search: '' });
   };
 
-  addCarrinho = (product) => { // desestruturação de estados!!!
+  addCarrinho = (product) => { // desestruturação de estados!!! // caso ja exista, incremente quantidade
+    const contagem = 1;
     const { infoProducts } = this.state;
-    console.log(infoProducts.length === 0);
     if (infoProducts.length === 0) {
       this.setState({ infoProducts: [product] }, () => {
         const { infoProducts: infoProducts2 } = this.state;
         const json = JSON.stringify(infoProducts2);
         localStorage.setItem('produto', json);
+        localStorage.setItem('quantidade', contagem);
       });
     } else {
       this.setState((prev) => ({
         infoProducts: [...prev.infoProducts, product],
       }), () => {
+        const contagem2 = infoProducts.filter((el) => el.id === product.id);
         const { infoProducts: infoProducts2 } = this.state;
         const jsonn = JSON.stringify(infoProducts2);
         localStorage.setItem('produto', jsonn);
+        localStorage.setItem('quantidade', contagem2.length + 1);
       });
     }
   };
