@@ -11,7 +11,7 @@ export default class Cart extends Component {
   }
 
   capturaStorage = () => {
-    const itemCarrinho = JSON.parse(localStorage.getItem('produto'));
+    const itemCarrinho = JSON.parse(localStorage.getItem('listProductsCart'));
     this.setState({ items: (itemCarrinho ?? []) });
   };
 

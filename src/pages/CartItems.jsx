@@ -3,54 +3,34 @@ import React, { Component } from 'react';
 
 export default class CartItems extends Component {
   state = {
-    quant: 1,
-    infoProducts: [],
+    // infoProducts: [],
+    quantidade: 0,
   };
 
-  addQuant = (aidi) => {
+  componentDidMount() {
+    const { quantidade } = this.state;
     const { items } = this.props;
-    const itemJaExistente = JSON.parse(localStorage.getItem('produto'));
-    this.setState({ infoProducts: itemJaExistente });
-    const itemPeloId = items.find((el) => el.id === aidi);
-    this.setState((prev) => ({
-      infoProducts: [...prev.infoProducts, itemPeloId],
-    }), () => {
-      const { infoProducts: infoProducts2 } = this.state;
-      const jsonn = JSON.stringify(infoProducts2);
-      localStorage.setItem('produto', jsonn);
-    });
-    this.setState((el) => ({ quant: el.quant + 1 }));
-  };
+    const quant = items.map((el) => el.qnt); // stringfy
+    this.setState({ quantidade: quant[0] });
+    console.log(quant);
+    console.log(quantidade);
+  }
 
-  remQuant = (aidi) => { // 1 - array de objeto () 2 -acesso por indice
-    const { quant, infoProducts } = this.state;
-    if (quant > 1) {
-      const { items } = this.props;
-      const itemJaExistente = JSON.parse(localStorage.getItem('produto'));
-      this.setState({ infoProducts: itemJaExistente });
-      const itemPeloId = items.filter((el) => el.id === aidi);
-      console.log(itemPeloId);
-      this.setState((prev) => ({
-        infoProducts: [...prev.infoProducts, itemPeloId],
-      }), () => {
-        const contagem2 = infoProducts.filter((el) => el.id === aidi);
-        // const { infoProducts: infoProducts2 } = this.state;
-        const json = JSON.stringify(itemPeloId);
-        localStorage.setItem('produto', json);
-        localStorage.setItem('quantidade', contagem2.length - 1);
-      });
-      this.setState((el) => ({ quant: el.quant - 1 }));
-    }
-  };
+  // addQuant = (aidi) => {
+
+  // };
+
+  // remQuant = () => {
+  // };
 
   // remItem = () => { // const itemPeloId = items.filter((el) => el.id !== aidi);
 
   // }
 
   render() {
-    const { id, thumbnail, title, price } = this.props;
-    const { quant, infoProducts } = this.state;
-    console.log(infoProducts);
+    const { items, id, thumbnail, title, price } = this.props;
+    console.log(items);
+    const { quantidade } = this.state;
     return (
       <div>
         <li key={ id }>
@@ -69,14 +49,16 @@ export default class CartItems extends Component {
           <button
             type="button"
             data-testid="product-decrease-quantity"
-            onClick={ () => this.remQuant(id) }
+            // onClick={}
           >
             -
           </button>
 
           <p data-testid="shopping-cart-product-quantity">
             Quantidade:
-            {quant}
+            {
+              items.map((el) => {})
+            }
           </p>
         </li>
       </div>
