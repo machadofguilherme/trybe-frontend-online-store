@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { getProductById } from '../services/api';
+import './Product.css';
 
 export default class Product extends Component {
   state = {
     info: [],
-    infoProducts: [],
+    listSelectedProducts: JSON.parse(localStorage.getItem('produto')) || [],
   };
 
   async componentDidMount() {
@@ -17,26 +18,48 @@ export default class Product extends Component {
   }
 
   capturaStorage = () => {
-    const itemCarrinho = JSON.parse(localStorage.getItem('produto'));
-    this.setState({ infoProducts: (itemCarrinho ?? []) });
+    const itemCarrinho = JSON.parse(localStorage.getItem('listProductsCart'));
+    this.setState({ listSelectedProducts: (itemCarrinho ?? []) });
   };
 
-  addCarrinho = (product) => {
-    let { infoProducts } = this.state;
-    if (infoProducts.length === 0) {
-      this.setState({ infoProducts: [product] }, () => {
-        const json = JSON.stringify([product]);
-        localStorage.setItem('produto', json);
+  addCart(productSelected) {
+    const { listSelectedProducts } = this.state;
+    if (listSelectedProducts.length === 0) {
+      this.setState({ listSelectedProducts: [productSelected] }, () => {
+        const { listSelectedProducts: list } = this.state;
+        list[0].qnt = 1;
+        const json = JSON.stringify(list);
+        return localStorage.setItem('listProductsCart', json);
       });
     } else {
-      this.setState((prev) => ({
-        infoProducts: [...prev.infoProducts, product],
-      }), () => {
-        const jsonn = JSON.stringify({ infoProducts } = this.state);
-        localStorage.setItem('produto', jsonn);
-      });
+      const found = listSelectedProducts.some((e) => e.id === productSelected.id);
+      if (!found) {
+        productSelected.qnt = 1;
+        this.setState({
+          listSelectedProducts: [...listSelectedProducts, productSelected],
+        }, () => {
+          const { listSelectedProducts: list } = this.state;
+          const json = JSON.stringify(list);
+          return localStorage.setItem('listProductsCart', json);
+        });
+      } else {
+        const valorAtualizado = listSelectedProducts.map((e) => {
+          if (productSelected.id === e.id) {
+            e.qnt += 1;
+            return e;
+          }
+          return e;
+        });
+        this.setState({
+          listSelectedProducts: [...valorAtualizado],
+        }, () => {
+          const { listSelectedProducts: list } = this.state;
+          const json1 = JSON.stringify(list);
+          return localStorage.setItem('listProductsCart', json1);
+        });
+      }
     }
-  };
+  }
 
   render() {
     const { info } = this.state;
@@ -63,7 +86,7 @@ export default class Product extends Component {
         <button
           type="button"
           data-testid="product-detail-add-to-cart"
-          onClick={ () => this.addCarrinho(info) }
+          onClick={ () => this.addCart(info) }
         >
           Adicionar ao Carrinho
         </button>

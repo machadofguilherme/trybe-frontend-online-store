@@ -13,7 +13,7 @@ class Home extends React.Component {
     data: [],
     contagem: 0,
     listCategories: [],
-    infoProducts: [],
+    listSelectedProducts: JSON.parse(localStorage.getItem('listProductsCart')) || [],
   };
 
   async componentDidMount() {
@@ -38,22 +38,44 @@ class Home extends React.Component {
     this.setState({ data: pesquisa.results, search: '' });
   };
 
-  addCarrinho = (product) => { // verificar se foi add mais de uma vez (incrementar uma chave quant) - hof /primeira vez que add produto1 / add produto2 some = false / produto 1 novamente
-    let { infoProducts } = this.state;
-    if (infoProducts.length === 0) {
-      this.setState({ infoProducts: [product] }, () => {
-        const json = JSON.stringify([product]);
-        localStorage.setItem('produto', json);
+  addCart(productSelected) {
+    const { listSelectedProducts } = this.state;
+    if (listSelectedProducts.length === 0) {
+      this.setState({ listSelectedProducts: [productSelected] }, () => {
+        const { listSelectedProducts: list } = this.state;
+        list[0].qnt = 1;
+        const json = JSON.stringify(list);
+        return localStorage.setItem('listProductsCart', json);
       });
     } else {
-      this.setState((prev) => ({
-        infoProducts: [...prev.infoProducts, product],
-      }), () => {
-        const jsonn = JSON.stringify({ infoProducts } = this.state);
-        localStorage.setItem('produto', jsonn);
-      });
+      const found = listSelectedProducts.some((e) => e.id === productSelected.id);
+      if (!found) {
+        productSelected.qnt = 1;
+        this.setState({
+          listSelectedProducts: [...listSelectedProducts, productSelected],
+        }, () => {
+          const { listSelectedProducts: list } = this.state;
+          const json = JSON.stringify(list);
+          return localStorage.setItem('listProductsCart', json);
+        });
+      } else {
+        const valorAtualizado = listSelectedProducts.map((e) => {
+          if (productSelected.id === e.id) {
+            e.qnt += 1;
+            return e;
+          }
+          return e;
+        });
+        this.setState({
+          listSelectedProducts: [...valorAtualizado],
+        }, () => {
+          const { listSelectedProducts: list } = this.state;
+          const json1 = JSON.stringify(list);
+          return localStorage.setItem('listProductsCart', json1);
+        });
+      }
     }
-  };
+  }
 
   render() {
     const { search, data, contagem, listCategories } = this.state;
@@ -142,7 +164,7 @@ class Home extends React.Component {
                     data-testid="product-add-to-cart"
                     className="more"
                     type="button"
-                    onClick={ () => this.addCarrinho(el) }
+                    onClick={ () => this.addCart(el) }
                   >
                     Adicionar ao carrinho
                   </button>

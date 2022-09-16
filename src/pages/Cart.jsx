@@ -1,47 +1,47 @@
-import React, { Component } from 'react';
+import React from 'react';
+import CartItems from './CartItems';
+import './Cart.css';
 
-export default class Cart extends Component {
-  state = {
-    items: [],
-  };
-
-  componentDidMount() {
-    this.capturaStorage();
+class Cart extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      recoveryStorage: JSON.parse(localStorage.getItem('listProductsCart')) || [],
+      message: false,
+    };
   }
 
-  capturaStorage = () => {
-    const itemCarrinho = JSON.parse(localStorage.getItem('produto'));
-    this.setState({ items: (itemCarrinho ?? []) });
-  };
+  componentDidMount() {
+    const { recoveryStorage } = this.state;
+    if (recoveryStorage.length > 0) this.setState({ message: true });
+  }
 
   render() {
-    const { items } = this.state;
+    const { recoveryStorage, message } = this.state;
     return (
-      <div>
-        <div>
-          { items.length <= 0 && (
-            <h1 data-testid="shopping-cart-empty-message">Seu carrinho está vazio</h1>
-          )}
-        </div>
-        <div>
-          { items.length >= 1 && (
-            <ul>
-              { items.map((el) => (
-                <li key={ el.id }>
-                  <p data-testid="shopping-cart-product-name">{el.title}</p>
-                  <p>{ el.price }</p>
-                  <img src={ el.thumbnail } alt={ el.title } />
-                  <p data-testid="shopping-cart-product-quantity">
-                    Quantidade:
-                    {' '}
-                    {1}
-                  </p>
-                </li>
-              )) }
-            </ul>
-          )}
-        </div>
-      </div>
+      <>
+        {message === false && (
+          <h1
+            data-testid="shopping-cart-empty-message"
+          >
+            Seu carrinho está vazio
+          </h1>
+        )}
+        <ul className="listaCarrinho">
+          { recoveryStorage.map((el) => (
+            <CartItems
+              key={ el.id }
+              title={ el.title }
+              price={ el.price }
+              thumbnail={ el.thumbnail }
+              productFull={ el }
+              quantidade={ el.qnt }
+            />
+          )) }
+        </ul>
+      </>
     );
   }
 }
+
+export default Cart;
