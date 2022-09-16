@@ -17,6 +17,7 @@ export default class Cart extends Component {
 
   render() {
     const { items } = this.state;
+    console.log(items);
     return (
       <div>
         <div>
@@ -35,6 +36,7 @@ export default class Cart extends Component {
                   title={ el.title }
                   price={ el.price }
                   id={ el.id }
+                  qnt={ el.qnt }
                 />
               )) }
             </ul>

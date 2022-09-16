@@ -2,23 +2,24 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 export default class CartItems extends Component {
-  state = {
-    // infoProducts: [],
-    quantidade: 0,
-  };
-
-  componentDidMount() {
-    const { quantidade } = this.state;
-    const { items } = this.props;
-    const quant = items.map((el) => el.qnt); // stringfy
-    this.setState({ quantidade: quant[0] });
-    console.log(quant);
-    console.log(quantidade);
+  constructor(props) {
+    super(props);
+    const { qnt } = props;
+    this.state = {
+      quantidade: qnt,
+    };
   }
 
-  // addQuant = (aidi) => {
-
-  // };
+  addQuant = (objeto) => {
+    const { quantidade } = this.state;
+    this.setState({ quantidade: quantidade + 1 }, () => {
+      const receberStorage = JSON.parse(localStorage.getItem('listProductsCart'));
+      receberStorage.forEach((e) => {
+        // if e.id === objeto.id
+        e.qnt += 1;
+      });
+    });
+  };
 
   // remQuant = () => {
   // };
@@ -29,8 +30,8 @@ export default class CartItems extends Component {
 
   render() {
     const { items, id, thumbnail, title, price } = this.props;
-    console.log(items);
     const { quantidade } = this.state;
+    console.log(items);
     return (
       <div>
         <li key={ id }>
@@ -41,24 +42,14 @@ export default class CartItems extends Component {
           <button
             type="button"
             data-testid="product-increase-quantity"
-            onClick={ () => this.addQuant(id) }
+            onClick={ () => this.addQuant(items) }
           >
             +
           </button>
 
-          <button
-            type="button"
-            data-testid="product-decrease-quantity"
-            // onClick={}
-          >
-            -
-          </button>
-
           <p data-testid="shopping-cart-product-quantity">
             Quantidade:
-            {
-              items.map((el) => {})
-            }
+            { quantidade }
           </p>
         </li>
       </div>
@@ -80,4 +71,5 @@ CartItems.propTypes = {
   price: PropTypes.number.isRequired,
   thumbnail: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
+  qnt: PropTypes.number.isRequired,
 };

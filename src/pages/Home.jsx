@@ -13,8 +13,7 @@ class Home extends React.Component {
     data: [],
     contagem: 0,
     listCategories: [],
-    listSelectedProducts: JSON.parse(localStorage.getItem('produto')) || [], // cartItems
-    // idProduct: 0,
+    listSelectedProducts: JSON.parse(localStorage.getItem('listProductsCart')) || [],
   };
 
   async componentDidMount() {
