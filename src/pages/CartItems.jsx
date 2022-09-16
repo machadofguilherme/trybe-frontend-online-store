@@ -1,75 +1,122 @@
+import React from 'react';
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
 
-export default class CartItems extends Component {
+class CartItems extends React.Component {
   constructor(props) {
     super(props);
-    const { qnt } = props;
+    const { quantidade } = props;
     this.state = {
-      quantidade: qnt,
+      listSelectedProducts: [],
+      Qnt: quantidade,
     };
+
+    this.addItem = this.addItem.bind(this);
+    this.decreaseItem = this.decreaseItem.bind(this);
+    this.removeItem = this.removeItem.bind(this);
   }
 
-  addQuant = (objeto) => {
-    const { quantidade } = this.state;
-    this.setState({ quantidade: quantidade + 1 }, () => {
-      const receberStorage = JSON.parse(localStorage.getItem('listProductsCart'));
-      receberStorage.forEach((e) => {
-        // if e.id === objeto.id
-        e.qnt += 1;
-      });
+  componentDidMount() {
+    this.setState({
+      listSelectedProducts: JSON.parse(localStorage.getItem('listProductsCart')) || [],
     });
-  };
+  }
 
-  // remQuant = () => {
-  // };
+  addItem(productFull) {
+    const { listSelectedProducts } = this.state;
+    const found = listSelectedProducts.find((e) => e.id === productFull.id);
+    found.qnt += 1;
+    this.setState((prev) => ({
+      listSelectedProducts: [...prev.listSelectedProducts],
+      Qnt: found.qnt,
+    }), () => {
+      const { listSelectedProducts: list } = this.state;
+      const json = JSON.stringify(list);
+      localStorage.setItem('listProductsCart', json);
+    });
+  }
 
-  // remItem = () => { // const itemPeloId = items.filter((el) => el.id !== aidi);
+  decreaseItem(productFull) {
+    const { listSelectedProducts } = this.state;
+    const found = listSelectedProducts.find((e) => e.id === productFull.id);
+    if (found.qnt > 1) {
+      found.qnt -= 1;
+      this.setState((prev) => ({
+        listSelectedProducts: [...prev.listSelectedProducts],
+        Qnt: found.qnt,
+      }), () => {
+        const { listSelectedProducts: list } = this.state;
+        const json1 = JSON.stringify(list);
+        localStorage.setItem('listProductsCart', json1);
+      });
+    }
+  }
 
-  // }
+  removeItem(productFull) {
+    const { listSelectedProducts } = this.state;
+    const found = listSelectedProducts.filter((e) => e.id !== productFull.id);
+    this.setState({
+      listSelectedProducts: found,
+      Qnt: null,
+    }, () => {
+      const { listSelectedProducts: list } = this.state;
+      const json2 = JSON.stringify(list);
+      localStorage.setItem('listProductsCart', json2);
+    });
+  }
 
   render() {
-    const { items, id, thumbnail, title, price } = this.props;
-    const { quantidade } = this.state;
-    console.log(items);
+    const { title, price, thumbnail, productFull } = this.props;
+    const { Qnt } = this.state;
+
     return (
-      <div>
-        <li key={ id }>
-          <p data-testid="shopping-cart-product-name">{title}</p>
-          <p>{ price }</p>
-          <img src={ thumbnail } alt={ title } />
-
-          <button
-            type="button"
-            data-testid="product-increase-quantity"
-            onClick={ () => this.addQuant(items) }
-          >
-            +
-          </button>
-
-          <p data-testid="shopping-cart-product-quantity">
-            Quantidade:
-            { quantidade }
-          </p>
-        </li>
-      </div>
+      <li>
+        {Qnt !== null && (
+          <>
+            <p data-testid="shopping-cart-product-name">{title}</p>
+            <p>
+              R$
+              {' '}
+              { (price * Qnt).toFixed(2) }
+            </p>
+            <img src={ thumbnail } alt={ title } />
+            <button
+              type="button"
+              data-testid="product-decrease-quantity"
+              onClick={ () => this.decreaseItem(productFull) }
+            >
+              -
+            </button>
+            <p data-testid="shopping-cart-product-quantity" className="pBrother">
+              {Qnt}
+            </p>
+            <button
+              type="button"
+              data-testid="product-increase-quantity"
+              onClick={ () => this.addItem(productFull) }
+            >
+              +
+            </button>
+            <button
+              type="button"
+              data-testid="remove-product"
+              className="remove"
+              onClick={ () => this.removeItem(productFull) }
+            >
+              x
+            </button>
+          </>
+        )}
+      </li>
     );
   }
 }
 
 CartItems.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string,
-    price: PropTypes.number,
-    thumbnail: PropTypes.string,
-    title: PropTypes.string,
-  })).isRequired,
-};
-
-CartItems.propTypes = {
-  id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   thumbnail: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  qnt: PropTypes.number.isRequired,
+  quantidade: PropTypes.number.isRequired,
+  productFull: PropTypes.shape({}).isRequired,
 };
+
+export default CartItems;

@@ -1,0 +1,56 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.listaCarrinho {
+  margin: 0 auto;
+  text-align: center;
+  width: 50%;
+}
+
+.listaCarrinho li {
+  border: 1px solid black;
+  display: inline-block;
+  margin: 5px auto;
+  padding: 10px;
+  position: relative;
+  width: 100%;
+}
+
+.listaCarrinho li p {
+  margin: 20px 0;
+}
+
+.listaCarrinho li img {
+  border: 1px solid dodgerblue;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto;
+}
+
+.listaCarrinho li button {
+  background: dodgerblue;
+  border: none;
+  border-radius: 1px;
+  color: white;
+  margin: 0 20px;
+  padding: 5px 15px;
+}
+
+.listaCarrinho li .remove {
+  background: tomato;
+  border: none;
+  border-radius: 1px;
+  color: white;
+  margin: 0 5px;
+  padding: 5px 15px;
+  position: absolute;
+  right: 0;
+  top: 5px;
+}
+
+.pBrother {
+  display: inline-block;
+}
