@@ -1,7 +1,7 @@
 
 # [Trybe] - Frontend Online Store
 
-Esse projeto foi realizado em times. No time que participei constavam os meus colegas: Guilherme Artigas, Jonas Jerônimo e Lucas Pedro.
+Esse projeto foi realizado em times. No time que participei constavam os meus colegas: [Guilherme Artigas](https://www.linkedin.com/in/guilherme-artigas), Jonas Jerônimo e Lucas Pedro.
 
 Frontend Online Store é uma loja online sem a implementação de um Backend. Portanto, apenas o Front-End fora desenvolvido pela equipe.
 
